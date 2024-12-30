@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  webrtc:
+    image: webrtc
+    build:
+      context: ./webrtc
+      dockerfile: ./Dockerfile-local
+    ports:
+      - 3000
+    volumes:
+      - ./webrtc:/app
+    networks:
+      - private_network
+
+  nginx:
+    image: nginx:1.25.4-perl
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/clientGeolocation.crt.pem:/etc/nginx/clientGeolocation.crt.pem:ro
+      - ./nginx/clientGeolocation.key.pem:/etc/nginx/clientGeolocation.key.pem:ro
+    networks:
+      - private_network
+networks:
+  private_network:
+    driver: bridge

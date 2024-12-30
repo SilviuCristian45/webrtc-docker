@@ -1,0 +1,30 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+# Expose ports for your app and PeerJS
+EXPOSE 3000 3001
+
+# Install global tools
+RUN npm install -g nodemon
+RUN npm install -D ts-node 
+RUN npm install peer -g
+
+# Debug: Get npm prefix
+RUN npm config get prefix
+
+# Set PATH based on npm global prefix
+RUN export PATH=$(npm config get prefix)/bin:$PATH && peerjs --version
+
+# Ensure the start.sh script is executable
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Run the startup script
+CMD ["/app/start.sh"]

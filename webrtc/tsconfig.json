@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es2017", // Or higher
+      "module": "commonjs",
+      "outDir": "dist", // Output directory for compiled JavaScript
+      "sourceMap": true, 
+      "strict": true, 
+      "esModuleInterop": true, 
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "strictNullChecks": true,
+      "skipLibCheck": true 
+    },
+    "include": [
+      "server/**/*"
+    ]
+  }
+  
