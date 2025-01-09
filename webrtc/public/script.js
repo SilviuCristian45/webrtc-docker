@@ -1,7 +1,7 @@
-const socket = io('https://192.168.88.168:3000') //root path
+const socket = io('https://192.168.85.98:3000') //root path
 
 const myPeer = new Peer(undefined, {
-    host: '192.168.88.168', // Correctly set the host without the protocol
+    host: '192.168.85.98', // Correctly set the host without the protocol
     port: 3001,            // Specify the port as a number, not a string
     secure: true           // Indicate that HTTPS should be used
 })
@@ -26,7 +26,7 @@ navigator.mediaDevices.getUserMedia({
   })
 
   socket.on('user-connected', userId => {
-    connectToNewUser(userId, stream)
+    setTimeout( () => connectToNewUser(userId, stream), 1000);
   })
 })
 
@@ -39,16 +39,24 @@ myPeer.on('open', id => {
 })
 
 function connectToNewUser(userId, stream) {
-  const call = myPeer.call(userId, stream)
-  const video = document.createElement('video')
-  call.on('stream', userVideoStream => {
-    addVideoStream(video, userVideoStream)
-  })
-  call.on('close', () => {
-    video.remove()
-  })
 
-  peers[userId] = call
+  console.log('Stream:', stream);
+  if (stream) {
+    const call = myPeer.call(userId, stream)
+    const video = document.createElement('video')
+    call.on('stream', userVideoStream => {
+      addVideoStream(video, userVideoStream)
+    })
+    call.on('close', () => {
+      video.remove()
+    })
+
+    peers[userId] = call
+  } else {
+    console.error('Stream is not available.');
+  }
+
+
 }
 
 function addVideoStream(video, stream) {
