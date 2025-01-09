@@ -7,6 +7,7 @@
 </head>
 <script>
   const ROOM_ID = "<%= roomId %>"
+  window.SERVER_IP = "<%= process.env.SERVER_IP %>";
 </script>
 <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
 <script src="/socket.io/socket.io.js" defer></script>

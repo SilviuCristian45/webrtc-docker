@@ -6,6 +6,8 @@ services:
     build:
       context: ./webrtc
       dockerfile: ./Dockerfile-local
+    env_file:
+      - '.env'
     ports:
       - 3000
     volumes:
